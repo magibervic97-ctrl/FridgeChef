@@ -20,7 +20,7 @@ app.add_middleware(
 # Configurar Gemini
 try:
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-    model = genai.GenerativeModel('gemini-1.5-flash-001')
+    model = genai.GenerativeModel("gemini-1.5-flash")
     print("Gemini configurado correctamente")
 except Exception as e:
     print(f"Error configurando Gemini: {e}")
