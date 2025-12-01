@@ -77,10 +77,9 @@ async def analyze_fridge(file: UploadFile = File(...)):
             print(f"Error con Gemini ingredientes: {e}")
             ingredients = {"ingredients": ["error en detección"]}
         
-        # Prompt para generar recetas
-       ingredients_str = ", ".join(ingredients["ingredients"])
-
-prompt_recipes = f"""Eres un chef experto que odia desperdiciar comida.
+        # Prompt para generar recetas (FIX indentación)
+        ingredients_str = ", ".join(ingredients["ingredients"])
+        prompt_recipes = f"""Eres un chef experto que odia desperdiciar comida.
 Tengo EXACTAMENTE estos ingredientes: {ingredients_str}
 
 Devuelve SOLO un JSON válido (sin ```json, sin texto extra, sin explicaciones) con exactamente 3 recetas que usen el máximo posible de estos ingredientes.
@@ -89,18 +88,16 @@ Formato EXACTO:
 [
   {{
     "title": "Nombre creativo de la receta",
-    "ingredients_used": ["ingrediente1", "ingrediente2", "..."],
-    "missing_ingredients": ["sal", "aceite"],  // solo básicos si faltan
+    "ingredients_used": ["ingrediente1", "ingrediente2"],
+    "missing_ingredients": ["sal", "aceite"],
     "steps": ["1. Calienta...", "2. Añade...", "3. Sirve..."],
     "time": "15 minutos",
     "difficulty": "fácil",
     "waste_score": 98
   }},
-  {{ /* segunda receta igual */ }},
-  {{ /* tercera receta igual */ }}
-]
-
-¡IMPORTANTE! Devuelve SOLO el JSON, nada más."""
+  {{}},
+  {{}}
+]"""
         try:
             recipe_response = model.generate_content(prompt_recipes)
             recipes_text = recipe_response.text.strip()
